@@ -1,0 +1,36 @@
+{
+    "organization": "CodeNest Academy",
+    "location": "Chennai",
+    "users":[
+        {
+            "username": "alice123",
+            "fullName":"Alice Johnson",
+            "role":"Frontend Developer",
+            "location":"Bangalore"
+        },
+        {
+            "username":"bobM",
+            "fullName":"Bob Martin",
+            "role":"Backend Developer",
+            "location":"Hyderabad"
+        },
+        {
+            "username":"charlieP",
+            "fullName":"Charlie Parker",
+            "role":"Data Scientist",
+            "location":"Delhi"
+        },
+        {
+            "username":"dianaK",
+            "fullName":"Diana Krish",
+            "role":"UI/UX Designer",
+            "location":"Mumbai"
+        },
+        {
+            "username":"ethanV",
+            "fullName":"Ethan Varun",
+            "role":"DevOps Engineer",
+            "location":"Pune"
+        }
+    ]
+}
