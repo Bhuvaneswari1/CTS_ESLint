@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+</head>
+<body>
+    <h2>Edit Cloth Product</h2>
+    <form id="editForm">
+        <label>Name:</label>
+        <input type="text" id="name" required /><br /><br />
+
+        <label>Category:</label>
+        <input type="text" id="category" required /><br /><br />
+
+        <label>Size:</label>
+        <input type="text" id="size" required /><br /><br />
+
+        <label>Price:</label>
+        <input type="number" id="price" required /><br /><br />
+
+        <label>In Stock:</label>
+        <input type="checkbox" id="instock" /><br /><br />
+
+        <button type="submit">Update Product</button>
+    </form>
+
+    <script>
+        const url="http://localhost:3000/clothstore"; //http://localhost:3000/clothstore/1/Men
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id")
+
+        if(!id){
+            alert('Product ID not found in URL!')
+            window.location.href="clothstore.html"
+        }
+
+        fetch(`${url}/${id}`)
+        .then(res=>res.json())
+        .then(product =>{
+            document.getElementById("name").value = product.name;
+            document.getElementById("category").value = product.category;
+            document.getElementById("size").value = product.size;
+            document.getElementById("price").value = product.price;
+            document.getElementById("instock").checked = product.inStock;
+        })
+
+        //Update product
+        document.getElementById("editForm").addEventListener("submit",function(e){
+            e.preventDefault();
+
+            const updatedProduct = {
+                name: document.getElementById("name").value,
+                category: document.getElementById("category").value,
+                size: document.getElementById("size").value,
+                price: parseFloat(document.getElementById("price").value),
+                inStock: document.getElementById("instock").checked
+            };
+
+            fetch(`${url}/${id}`,{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(updatedProduct)
+            })
+            .then(res=>{
+                console.log("Response Status:", res.status);
+                if(res.ok){
+                    alert("Product updated successfully.")
+                    window.location.href="clothstore.html"
+                }
+                else{
+                    alert('Failed to update product.')
+                }
+            })
+        })
+    </script>
+</body>
+</html>
