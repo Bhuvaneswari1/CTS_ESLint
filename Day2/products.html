@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4faff;
+            padding: 30px;
+        }
+
+        h2{
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        th,td{
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left; /* Changed to left for better readability of product details */
+            vertical-align: top; /* Align content to the top for multi-line cells */
+        }
+
+        th{
+            background-color: #007acc;
+            color: white;
+            text-align: center; /* Keep header text centered */
+        }
+
+        .highlight{
+            background-color: #d1eaff; /* Used for "in stock" products */
+        }
+
+        .filter-bar{
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        select, button{
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button{
+            background-color: #007acc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .no-data {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Specific styles for complex data display - only shipping info remains */
+        .shipping-info-list, .nested-object-list {
+            list-style: none; /* Remove default bullet points */
+            padding-left: 0;
+            margin: 0;
+        }
+        .shipping-info-list > li {
+            margin-bottom: 5px;
+        }
+        .nested-object-list { /* For nested objects/arrays within shipping info */
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+        .nested-object-list li {
+            margin-bottom: 3px;
+        }
+
+        .price-cell {
+            white-space: nowrap; /* Prevent price from wrapping */
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+        .badge.bg-success {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .badge.bg-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+  <h2>Product Catalog</h2>
+
+  <div class="filter-bar">
+    <label for="categorySelect">Filter by Category:</label>
+    <select id="categorySelect">
+        <option value="All">All Categories</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Audio">Audio</option>
+        <option value="Smart Home">Smart Home</option>
+        <option value="Photography">Photography</option>
+        <option value="Home & Office">Home & Office</option>
+        <option value="Computers">Computers</option>
+    </select>
+    <label for="stockSelect">Availability:</label>
+    <select id="stockSelect">
+        <option value="All">All Products</option>
+        <option value="InStock">In Stock</option>
+        <option value="OutOfStock">Out of Stock</option>
+    </select>
+    <button onclick="applyFilters()">Apply Filters</button>
+  </div>
+
+  <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Shipping Info</th>
+        </tr>
+    </thead>
+    <tbody id="productTableBody">
+        </tbody>
+    </table>
+
+    <p id="noDataMessage" class="no-data" style="display:none">No products found matching your criteria.</p>
+
+    <script>
+        let allProductsData = []; // Stores the original fetched data
+        let filteredProductsData = []; // Stores the currently filtered data
+
+        fetch('products.json')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                allProductsData = data; // Store the full dataset
+                applyFilters(); // Render initial table with all data
+            })
+            .catch(err => {
+                document.getElementById("productTableBody").innerHTML = "<tr><td colspan='8'>Failed to load product data.</td></tr>"; // Adjusted colspan
+                console.error('Fetch error: ', err);
+            });
+
+        function renderTable(data) {
+            const tbody = document.getElementById('productTableBody');
+            tbody.innerHTML = "";
+            document.getElementById("noDataMessage").style.display = data.length === 0 ? 'block' : 'none';
+
+            // Helper to format nested objects/arrays directly within renderTable
+            const formatNested = (obj, depth = 0) => {
+                if (obj === null || obj === undefined) return 'N/A';
+                if (typeof obj !== 'object') return obj.toString();
+
+                let html = `<ul class="nested-object-list" style="padding-left: ${depth * 15}px;">`;
+                if (Array.isArray(obj)) {
+                    obj.forEach(item => {
+                        if (typeof item === 'object' && item !== null) {
+                            html += `<li>${formatNested(item, depth + 1)}</li>`;
+                        } else {
+                            html += `<li>${item}</li>`;
+                        }
+                    });
+                } else {
+                    for (const key in obj) {
+                        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                            const value = obj[key];
+                            if (typeof value === 'object' && value !== null) {
+                                html += `<li><strong>${key}:</strong> ${formatNested(value, depth + 1)}</li>`;
+                            } else {
+                                html += `<li><strong>${key}:</strong> ${value}</li>`;
+                            }
+                        }
+                    }
+                }
+                html += '</ul>';
+                return html;
+            };
+
+
+            data.forEach(product => {
+                const row = document.createElement('tr');
+                // Apply highlight if in stock
+                if (product.inStock) {
+                    row.classList.add('highlight');
+                }
+
+                row.innerHTML = `
+                    <td>${product.productId}</td>
+                    <td>${product.name}</td>
+                    <td>${product.brand}</td>
+                    <td>${product.category} (${product.subCategory || 'N/A'})</td>
+                    <td class="price-cell">${product.currency} ${product.price.toFixed(2)}</td>
+                    <td>${product.inStock ? `<span class="badge bg-success">In Stock (${product.stockQuantity})</span>` : `<span class="badge bg-danger">Out of Stock</span>`}</td>
+                    <td>${product.description}</td>
+                    <td>
+                        ${product.shippingInfo ? formatNested(product.shippingInfo) : 'N/A'}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function applyFilters() {
+            const selectedCategory = document.getElementById('categorySelect').value;
+            const selectedStock = document.getElementById('stockSelect').value;
+
+            filteredProductsData = allProductsData.filter(product => {
+                const categoryMatch = selectedCategory === 'All' || product.category === selectedCategory;
+                let stockMatch = true;
+
+                if (selectedStock === 'InStock') {
+                    stockMatch = product.inStock === true;
+                } else if (selectedStock === 'OutOfStock') {
+                    stockMatch = product.inStock === false;
+                }
+                return categoryMatch && stockMatch;
+            });
+
+            // Optional: Sort by name for consistency after filtering
+            filteredProductsData.sort((a, b) => a.name.localeCompare(b.name));
+
+            renderTable(filteredProductsData);
+        }
+    </script>
+</body>
+</html>

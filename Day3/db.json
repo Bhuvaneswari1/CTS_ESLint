@@ -1,0 +1,61 @@
+{
+  "products": [
+    {
+      "id": "66e8",
+      "productId": 1,
+      "name": "Smartphone X100",
+      "category": "Electronics",
+      "price": 599.99,
+      "InStock": true
+    },
+    {
+      "id": "e441",
+      "productId": 2,
+      "name": "Wireless Headphones",
+      "category": "Electronics",
+      "price": 299.99,
+      "InStock": false
+    },
+    {
+      "id": "8d4c",
+      "productId": 3,
+      "name": "Montior",
+      "category": "Electronics",
+      "price": 499.99,
+      "InStock": true
+    }
+  ],
+  "users": [
+    {
+      "id": "2865",
+      "userId": 1,
+      "username": "charles",
+      "email": "charles@example.com",
+      "role": "user"
+    },
+    {
+      "id": "4a6e",
+      "userId": 2,
+      "username": "johndoe",
+      "email": "johndoe@example.com",
+      "role": "admin"
+    },
+    {
+      "id": "3a77",
+      "userId": 3,
+      "username": "Rahul",
+      "email": "rahul@example.com",
+      "role": "user"
+    }
+  ],
+  "orders": [
+    {
+      "orderId": 1,
+      "userId": 1,
+      "productId": 2,
+      "quantity": 2,
+      "status": "Confirmed",
+      "id": "2de2"
+    }
+  ]
+}

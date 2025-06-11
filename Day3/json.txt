@@ -1,0 +1,52 @@
+{
+      "productId": 1,
+      "name": "Smartphone X100",
+      "category": "Electronics",
+      "price": 599.99,
+      "InStock": true
+    },
+    {
+      "productId": 2,
+      "name": "Wireless Headphones",
+      "category": "Electronics",
+      "price": 299.99,
+      "InStock": false
+    },
+    {
+      "productId": 3,
+      "name": "Montior",
+      "category": "Electronics",
+      "price": 499.99,
+      "InStock": true
+    },
+    {
+      "productId": 4,
+      "name": ":Laptop",
+      "category": "Electronics",
+      "price": 1299.99,
+      "InStock": true
+    }
+
+    {
+      "productId": 4,
+      "name": ":Laptop",
+      "category": "Electronics",
+      "price": 1599.99,
+      "InStock": true,
+      "id": "39bc"
+    }
+
+    {
+      "orderId": 1,
+      "userId": 1,
+      "productId": 2,
+      "quantity": 2,
+      "status": "Confirmed"
+    },
+    {
+      "orderId": 2,
+      "userId": 2,
+      "productId": 3,
+      "quantity": 2,
+      "status": "Pending"
+    }

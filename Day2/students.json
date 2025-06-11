@@ -33,6 +33,26 @@
                 {"name":"Science","marks":78},
                 {"name":"English","marks":82}
             ]
+        },
+        {
+            "id":"$104",
+            "name":"Joseph K",
+            "grade":"10",
+            "section":"B",
+            "subjects":[
+                {"name":"Math","marks":80},
+                {"name":"English","marks":82}
+            ]
+        },
+        {
+            "id":"$105",
+            "name":"Fathima K",
+            "grade":"10",
+            "section":"B",
+            "subjects":[
+                {"name":"Science","marks":78},
+                {"name":"English","marks":82}
+            ]
         }
     ]
 }
