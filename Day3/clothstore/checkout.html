@@ -11,6 +11,7 @@
     <div id="summary"></div>
     <button onclick="confirmOrder()">Confirm Order</button>
     <button onclick="cancel()">Cancel</button>
+    <button onclick="logout()">Logout</button>
 
     <script>
         const email = localStorage.getItem("loggedInUser");
@@ -53,6 +54,10 @@
 
         function cancel(){
             window.location.href="user-dashboard.html"
+        }
+
+        function logout(){
+            window.location.href="logout.html"
         }
     </script>
 </body>

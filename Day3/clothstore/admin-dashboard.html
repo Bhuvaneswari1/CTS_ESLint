@@ -7,6 +7,7 @@
 </head>
 <body>
     <h2>Admin Cloth Store Dashboard</h2>
+    <button onclick="addProduct()">Add Product</button>
     <button onclick="logout()">Logout</button>
     <table border="1" cellpadding="10">
         <thead>
@@ -34,6 +35,10 @@
         function logout(){
             localStorage.removeItem("loggedInUser")
             window.location.href="index.html"
+        }
+
+        function addProduct(){
+            window.location.href="add-product.html"
         }
 
         const url="http://localhost:3000/clothstore";

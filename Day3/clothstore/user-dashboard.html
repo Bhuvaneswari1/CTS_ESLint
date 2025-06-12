@@ -8,7 +8,7 @@
 <body>
     <h2 id="welcome">Welcome User</h2>
 
-    <button onclick ="viewCart()">View Cart</button>
+    <button onclick ="viewCart()" id = "viewCartBtn" disabled>View Cart</button>
     <button onclick="checkout()">Checkout</button>
 
     <h3>Available Products</h3>
@@ -53,6 +53,8 @@
             cart.push(product)
             localStorage.setItem("cart",JSON.stringify(cart))
             alert(`${product.name} added to cart.`)
+            document.getElementById("viewCartBtn").disabled = false
+            
         }
 
         function viewCart(){
@@ -78,6 +80,10 @@
         cart.splice(index,1) //Remove item at given index
         localStorage.setItem("cart",JSON.stringify(cart));
         viewCart(); //Refresh cart display
+
+        if(cart.length === 0){
+            document.getElementById("viewCartBtn").disabled = true
+        }
     }
 
     function checkout(){
@@ -94,15 +100,21 @@
                 table.innerHTML = ""
 
                 data.forEach(product =>{
+
+                    const isOutofStock = !product.inStock //!true = Out of Stock
                     table.innerHTML += `
                     <tr>
                         <td>${product.name}</td>
                         <td>${product.category}</td>
                         <td>${product.size}</td>
                         <td>${product.price}</td>
-                        <td>${product.inStock ? "In Stock": "Out of Stock"}</td>
+                        <td>${isOutofStock ? "Out of Stock" : "In Stock"}</td>
                         <td>
-                            <button onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
+                            <button onclick='addToCart(${JSON.stringify(product)})'
+                            ${isOutofStock?"disabled":""}
+                            >
+                            Add to Cart
+                        </button>
                         </td>
                     </tr>
                     `

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+</head>
+<body>
+    <h2>Add New Product</h2>
+
+    <form id = "productForm">
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" required><br><br>
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" required><br><br>
+
+        <label for="size">Size:</label>
+        <select id="size" required>
+            <option value="">-- Select Size --</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+        </select><br><br>
+
+        <label for="price">Price (₹):</label>
+        <input type="number" id="price" required><br><br>
+
+        <label for="inStock">In Stock</label>
+        <select id="instock" required>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select><br><br>
+
+        <button type="submit">Add Product</button>
+        <button type="button" onclick="goBack()">Back to Dashboard</button>
+    </form>
+
+    <script>
+        document.getElementById("productForm").addEventListener("submit",function(e){
+            e.preventDefault();
+
+            //step 1: Get existing products to generate next ID
+
+            fetch("http://localhost:3000/clothstore")
+            .then(res=>res.json())
+            .then(products =>{
+
+                const maxId = products.length > 0 ?Math.max(...products.map(p=>p.id || 0 )):0;
+            const product = {
+                id: (maxId +1).toString(),
+                name: document.getElementById("name").value,
+                category: document.getElementById("category").value,
+                size: document.getElementById("size").value,
+                price: parseFloat(document.getElementById("price").value),
+                inStock: document.getElementById("instock").value === "true"
+            }
+
+            return fetch("http://localhost:3000/clothstore",{
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(product)
+            });
+        })
+            .then(res =>{
+                if(res.ok){
+                    alert('Product added succesfully!')
+                    document.getElementById("productForm").reset();
+                }
+                else{
+                    alert('Failed to add product')
+                }
+            })
+            .catch(err =>{
+                console.error("Error: ",err)
+                alert("An error occured while adding the product")
+            })
+        })
+
+        function goBack(){
+            window.location.href="admin-dashboard.html"
+        }
+    </script>
+</body>
+</html>
