@@ -24,8 +24,17 @@
 
             if(storeUser && storeUser.password === password){
                 localStorage.setItem("loggedInUser",email);
+                localStorage.setItem("loggedInUserName",storeUser.name)
                 alert("Login Successful!")
-                window.location.href="clothstore.html"
+
+                if(storeUser.role === "admin"){
+                    window.location.href="admin-dashboard.html"
+                }
+                else{
+                    window.location.href="user-dashboard.html"
+                }
+
+                //window.location.href="clothstore.html"
             }
             else{
                 alert("Invalid email or password")

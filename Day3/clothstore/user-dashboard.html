@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <h2 id="welcome">Welcome User</h2>
+
+    <button onclick ="viewCart()">View Cart</button>
+    <button onclick="checkout()">Checkout</button>
+
+    <h3>Available Products</h3>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="productTable"></tbody>
+
+        <h3>Cart Items</h3>
+        <ul id="cartItems"></ul>
+    </table>
+
+    <script>
+        //check if user is logged in
+        const loggedInEmail = localStorage.getItem("loggedInUser")
+        if(!loggedInEmail){
+            alert("Please login first!")
+            windoe.location.href="login.html"
+        }
+
+        //Fetch user data and display name
+        const userData = JSON.parse(localStorage.getItem(loggedInEmail))
+        if(userData && userData.username){
+            document.getElementById("welcome").innerHTML = `Welcome ${userData.username}`
+        }
+        else{
+            document.getElementById("welcome").innerHTML = `Welcome ${loggedInEmail}`
+        }
+
+        //Cart logic
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function addToCart(product){
+            cart.push(product)
+            localStorage.setItem("cart",JSON.stringify(cart))
+            alert(`${product.name} added to cart.`)
+        }
+
+        function viewCart(){
+            const cartList = document.getElementById("cartItems")
+            cartList.innerHTML = "";
+        
+
+        if(cart.Length === 0){
+            cartList.innerHTML = "<li>Cart is empty.</li>"
+            return;
+        }
+
+        cart.forEach((item,index)=>{
+            cartList.innerHTML += `<li>${item.name} - ${item.price} (${item.size})
+            <button onclick="removeFromCart(${index})"
+            style = "background-color: red; color:white; border:none;  cursor:pointer">
+            X
+            </button> </li>`
+        })
+    }
+
+    function removeFromCart(index){
+        cart.splice(index,1) //Remove item at given index
+        localStorage.setItem("cart",JSON.stringify(cart));
+        viewCart(); //Refresh cart display
+    }
+
+    function checkout(){
+        window.location.href="checkout.html"
+    }
+
+        //Load Product data
+        const url="http://localhost:3000/clothstore";
+        function loadProducts(){
+            fetch(url)
+            .then(res => res.json())
+            .then(data =>{
+                const table= document.getElementById("productTable")
+                table.innerHTML = ""
+
+                data.forEach(product =>{
+                    table.innerHTML += `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>${product.size}</td>
+                        <td>${product.price}</td>
+                        <td>${product.inStock ? "In Stock": "Out of Stock"}</td>
+                        <td>
+                            <button onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
+                        </td>
+                    </tr>
+                    `
+                })
+            })
+            .catch(err=>{
+                console.error("Error loading products.", error)
+            })
+        }
+        loadProducts();
+
+    </script>
+</body>
+</html>

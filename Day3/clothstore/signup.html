@@ -8,9 +8,15 @@
 <body>
     <h2>Signup</h2>
     <form id="signupForm">
-        Username: <input type="email" placeholder="Enter Email" id="email" required /><br>
+        UserName: <input type="text" placeholder="Enter UserName" id="username" required /><br>
+        Email: <input type="email" placeholder="Enter Email" id="email" required /><br>
         Password: <input type="password" placeholder="Enter Password" id="password" required />
         <br>
+        <label for="role">Select Role</label>
+        <select id="role" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select><br /><br />
         <button type="submit">Signup</button>  
     </form>
 
@@ -18,8 +24,10 @@
         document.getElementById("signupForm").addEventListener("submit",function(e){
             e.preventDefault();
 
+            const username = document.getElementById("username").value;
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
+            const role =  document.getElementById("role").value;
 
             if(localStorage.getItem(email)){
                 alert('Email already registered. Please login.')
@@ -27,7 +35,7 @@
                 return;
             }
 
-            localStorage.setItem(email,JSON.stringify({email,password}))
+            localStorage.setItem(email,JSON.stringify({username, email, password, role}))
             alert('Signup successful! Please Login.')
             window.location.href="login.html"
         })

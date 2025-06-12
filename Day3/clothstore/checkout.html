@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+<body>
+    <!-- <h2>Checkout</h2> -->
+    <div id = "checkoutTitle">Checkout</div>
+    <div id="summary"></div>
+    <button onclick="confirmOrder()">Confirm Order</button>
+    <button onclick="cancel()">Cancel</button>
+
+    <script>
+        const email = localStorage.getItem("loggedInUser");
+
+        if(!email){
+            alert('Login first.');
+            window.location.href="index.html"
+        }
+
+        const userData = JSON.parse(localStorage.getItem(email))
+
+        if(userData && userData.username){
+            document.getElementById("checkoutTitle").innerHTML = `<strong><h2>
+                Checkout - ${userData.username}</h2></strong>`;
+        }
+        
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        if(cart.length === 0 ){
+            document.getElementById("summary").innerHTML = "No items in cart"
+        }
+        else{
+            let total = 0;
+            let list = "<ul>"
+            cart.forEach(p =>{
+                total += p.price;
+                list+= `<li>${p.name} - ₹${p.price}</li>`
+            })
+            list += "</ul"
+
+            document.getElementById("summary").innerHTML = `<h4>Items: </h4>${list}
+            <p><strong>Total: ₹${total}</strong></p>`;
+        }
+
+        function confirmOrder(){
+            alert('Order Placed successfully!');
+            localStorage.removeItem("cart")
+            window.location.href="logout.html"
+        }
+
+        function cancel(){
+            window.location.href="user-dashboard.html"
+        }
+    </script>
+</body>
+</html>
