@@ -12,6 +12,15 @@
     <button onclick="checkout()">Checkout</button>
 
     <h3>Available Products</h3>
+
+    <label for="categoryFilter">Filter by Category:</label>
+    <select id = "categoryFilter" onchange = "loadProducts()">
+        <option value="All">All</option>
+        <option value="Men">Men</option>
+        <option value="Women">Women</option>
+        <option value="Kids">Kids</option>
+    </select><br><br>
+
     <table border="1" cellpadding="10">
         <thead>
             <tr>
@@ -93,13 +102,25 @@
         //Load Product data
         const url="http://localhost:3000/clothstore";
         function loadProducts(){
+            const selectedCategory = document.getElementById("categoryFilter").value;
+
             fetch(url)
             .then(res => res.json())
             .then(data =>{
                 const table= document.getElementById("productTable")
                 table.innerHTML = ""
 
-                data.forEach(product =>{
+                //Apply category filter if not "All"
+
+                const filteredProducts = selectedCategory === "All" ?data : data.filter(
+                    product =>product.category === selectedCategory)
+
+                if(filteredProducts.length === 0 ){
+                    table.innerHTML = "<tr><td colspan = '6'>No products found for this category</td></tr>";
+                    return;
+                }
+
+                filteredProducts.forEach(product =>{
 
                     const isOutofStock = !product.inStock //!true = Out of Stock
                     table.innerHTML += `

@@ -10,7 +10,7 @@
     },
     {
       "name": "Kid T-Shirt",
-      "category": "kids",
+      "category": "Kids",
       "size": "M",
       "price": 548,
       "inStock": true,
@@ -34,26 +34,18 @@
     },
     {
       "id": "5",
-      "name": "Kid",
-      "category": "T-Shirt",
+      "name": "Kids T-Shirt",
+      "category": "Kids",
       "size": "L",
       "price": 299,
       "inStock": false
     },
     {
       "id": "6",
-      "name": "Kid",
-      "category": "Pant",
+      "name": "Pant",
+      "category": "Kids",
       "size": "L",
       "price": 199,
-      "inStock": true
-    },
-    {
-      "id": "7",
-      "name": "Women",
-      "category": "Kurthi",
-      "size": "XL",
-      "price": 799,
       "inStock": true
     }
   ]

@@ -10,7 +10,13 @@
     <form id="signupForm">
         UserName: <input type="text" placeholder="Enter UserName" id="username" required /><br>
         Email: <input type="email" placeholder="Enter Email" id="email" required /><br>
-        Password: <input type="password" placeholder="Enter Password" id="password" required />
+        Password: 
+        <div style="position:relative; display:inline-block">
+        <input type="password" placeholder="Enter Password" id="password" required />
+        <span id ="togglePassword" style="position:absolute; right:5px;  cursor:pointer;">
+            👁️
+        </span>
+        </div>
         <br>
         <label for="role">Select Role</label>
         <select id="role" required>
@@ -21,14 +27,56 @@
     </form>
 
     <script>
+        const emailInput = document.getElementById("email")
+            const passwordInput = document.getElementById("password");
+            const togglePassword = document.getElementById("togglePassword")
+
+            togglePassword.addEventListener("click",function(){
+                const type = passwordInput.type === "password"?"text":"password";
+                passwordInput.type = type;
+            })
         document.getElementById("signupForm").addEventListener("submit",function(e){
             e.preventDefault();
 
             const username = document.getElementById("username").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+            const email = emailInput.value;          
+            const password = passwordInput.value;
             const role =  document.getElementById("role").value;
 
+            const emailRegex = /^[a-zA-z0-9.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+            /*
+            [a-zA-z0-9.%+- username part of email(before @)
+            ]+ one or more characters are required
+            @ symbol mandatory in all emails
+            [a-zA-Z0-9.-]+ Domain name (gmail, mail-server) Allows letters, numbers, dots, hypens
+            \. A literal dot before the domain extension(.com, .org, in)
+            a-zA-Z]{2,} Two level domain(TLD) part like com, org, in 
+            */
+
+            //const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/; //Hello123(valid) , 123Hello(invalid)
+            const passwordRegex = /^(?=.*[A-za-z])(?=.*\d)(?=.*[_@$])[A-Za-z\d_@$]{6,}$/;
+
+            /*
+            (?=.*[A-Za-z]) → at least one letter
+            (?=.*\d) → at least one digit
+            (?=.*[_@$]) → at least one of _, $, or @
+            [A-Za-z\d_@$]{6,} → only these allowed characters, and at least 6 total 
+            */
+
+            if(!emailRegex.test(email)){
+                alert('Please enter a valid email address.')
+                emailInput.focus();
+                return;
+            }
+
+            if(!passwordRegex.test(password)){
+                alert("Password must be at least 6 character and include at least one letter "+
+                "one number, one special character(@, $, _).")
+                passwordInput.value=""
+                passwordInput.focus()
+                return
+            }
             if(localStorage.getItem(email)){
                 alert('Email already registered. Please login.')
                 window.location.href="login.html"
