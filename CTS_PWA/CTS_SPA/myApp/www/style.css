@@ -1,0 +1,17 @@
+body{
+    font-family: sans-serif;
+    margin: 20px;
+}
+nav{
+    margin-bottom: 20px;
+}
+
+nav a{
+    margin-left: 16px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+nav a:hover{
+    text-decoration: underline;
+}

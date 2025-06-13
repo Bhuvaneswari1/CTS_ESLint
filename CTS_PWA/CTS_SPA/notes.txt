@@ -1,0 +1,9 @@
+cordova create myApp com.example.myapp MyApp
+cd MyApp
+replace index.html in cordova
+by your index.html in CTS_SPA
+create and add - script.js and copy the code
+create and add - style.css and copy the code
+
+cordova platform add browser
+cordova run browser
