@@ -1,0 +1,8 @@
+{
+    "server":{
+        "baseDir":"./",
+        "middleware":{
+            "1":null
+        }
+    }
+}
