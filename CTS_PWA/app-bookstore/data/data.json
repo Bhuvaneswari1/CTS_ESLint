@@ -1,0 +1,33 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald"
+    },
+    {
+      "id": "2",
+      "title": "1984",
+      "author": "George Orwell"
+    },
+    {
+      "id": "73bb",
+      "title": "Testing",
+      "author": "Testing-author"
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin123",
+      "role": "admin",
+      "id": "fa84"
+    },
+    {
+      "username": "john",
+      "password": "john123",
+      "role": "user",
+      "id": "db55"
+    }
+  ]
+}

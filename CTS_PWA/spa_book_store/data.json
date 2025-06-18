@@ -1,0 +1,71 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "Book A",
+      "author": "Author A",
+      "price": 120
+    },
+    {
+      "id": "2",
+      "title": "Book B",
+      "author": "Author B",
+      "price": 300
+    },
+    {
+      "id": "4",
+      "title": "Book D",
+      "author": "Author D",
+      "price": 250
+    },
+    {
+      "id": "8422",
+      "title": "DemoBook",
+      "author": "DemoAuthor",
+      "price": 20
+    },
+    {
+      "id": "03ae",
+      "title": "Book one",
+      "author": "Book Author",
+      "price": 120
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "name": "Alice",
+      "email": "alice@example.com",
+      "password": "alice123",
+      "role": "user"
+    },
+    {
+      "id": "3",
+      "name": "Bob",
+      "email": "bob@example.com",
+      "password": "bob123",
+      "role": "user"
+    },
+    {
+      "id": "d28a",
+      "name": "Bhuvaneswari",
+      "email": "bhuvana@gmail.com",
+      "password": "bhuvana@123",
+      "role": "admin"
+    },
+    {
+      "id": "9305",
+      "name": "User",
+      "email": "user@gmail.com",
+      "password": "user123",
+      "role": "user"
+    }
+  ]
+}

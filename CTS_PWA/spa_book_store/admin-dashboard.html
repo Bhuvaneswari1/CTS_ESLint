@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">BookStore Admin</a>
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="addbook.html" class="nav-link">Add Book</a>
+          </li>
+          <li class="nav-item">
+            <a href="index.html" class="nav-link" onclick="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container mt-4">
+    <h2>Admin Dashboard</h2>
+    <div id="admin-book-list"></div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000';
+
+    async function loadBooks() {
+      const response = await fetch(`${API_URL}/books`);
+      const books = await response.json();
+
+      document.getElementById('admin-book-list').innerHTML =
+        '<ul class="list-group">' +
+        books.map(b => `
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            ${b.title} - ${b.author} - ₹${b.price}
+            <span>
+              <button class="btn btn-sm btn-secondary" onclick="editBook(${b.id})">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteBook(${b.id})">Delete</button>
+            </span>
+          </li>`).join('') +
+        '</ul>';
+    }
+
+    async function editBook(bookId) {
+      const response = await fetch(`${API_URL}/books/${bookId}`);
+      const book = await response.json();
+
+      const newTitle = prompt("New Title:", book.title);
+      const newAuthor = prompt("New Author:", book.author);
+      const newPrice = parseFloat(prompt("New Price:", book.price));
+
+      if (!newTitle || !newAuthor || isNaN(newPrice)) {
+        alert("Invalid input");
+        return;
+      }
+
+      await fetch(`${API_URL}/books/${bookId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...book, title: newTitle, author: newAuthor, price: newPrice })
+      });
+
+      alert("Book updated!");
+      loadBooks();
+    }
+
+    async function deleteBook(bookId) {
+      await fetch(`${API_URL}/books/${bookId}`, { method: 'DELETE' });
+      alert("Book deleted!");
+      loadBooks();
+    }
+
+    function logout() {
+      // You can also clear localStorage/sessionStorage here if you use auth.
+      alert("Logged out successfully!");
+    }
+
+    // Load books on page load
+    loadBooks();
+  </script>
+
+</body>
+</html>
