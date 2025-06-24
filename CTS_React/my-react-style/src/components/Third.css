@@ -1,0 +1,23 @@
+.container{
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#myId{
+    color: green;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.container p{
+    color:#5e3434;
+    font-size: 1.2rem;
+}
+
+.box{
+    color:beige;
+    align-items: left;
+}
