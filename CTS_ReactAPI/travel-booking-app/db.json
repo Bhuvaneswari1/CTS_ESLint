@@ -1,0 +1,28 @@
+{
+  "packages": [
+    {
+      "id": "5",
+      "destination": "Bali",
+      "price": 25000,
+      "days": 6
+    },
+    {
+      "id": "6",
+      "destination": "NewYork",
+      "price": 50000,
+      "days": 6
+    },
+    {
+      "id": "7728",
+      "destination": "Delhi",
+      "price": "500",
+      "days": "1"
+    },
+    {
+      "id": "3f32",
+      "destination": "Pune",
+      "price": "600",
+      "days": "1"
+    }
+  ]
+}
