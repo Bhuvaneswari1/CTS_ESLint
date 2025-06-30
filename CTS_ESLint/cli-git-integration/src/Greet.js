@@ -2,6 +2,8 @@ import React from 'react';
 
 export const Greet = () => {
   return (
-    <div>Greet</div>
+    <div>
+      <h1>Welcome to Greeting</h1>
+    </div>
   );
 };
