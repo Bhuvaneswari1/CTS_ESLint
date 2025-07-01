@@ -1,0 +1,12 @@
+{
+    "user":{
+        "id":1,
+        "username":"bhuvana",
+        "email":"bhuvana@example.com"
+    },
+    "friends":[
+        {"id":1, "name":"Divya"},
+        {"id":2, "name":"Yonita"},
+        {"id":3, "name":"Sreehari"}
+    ]
+}
