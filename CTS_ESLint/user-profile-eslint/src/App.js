@@ -23,6 +23,7 @@ function App() {
   if(!user) return <p>Loading...</p>;
   return (
     <div className="container mt-4">
+      <h1>Working with Git Integration</h1>
       <Greeting name={user.username} />
       <UserInfo user={user} />
       <FriendList friends={friends} />
